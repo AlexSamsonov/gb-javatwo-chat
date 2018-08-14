@@ -1,0 +1,4 @@
+1) Какие данные могут привести к IOЕxception в классе SocketThread?
+2) 24 строчка класса SocketThread. Почему мы не опредилили переменную для DataInputStream в начале класса?
+3) 27 строчка класса SocketThread. Как работает метод isInterrupted()?
+4) Что ловит Thread.setDefaultUncaughtExceptionHandler(this) в классе ServerGUI?
