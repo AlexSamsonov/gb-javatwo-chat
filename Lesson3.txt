@@ -1,0 +1,56 @@
+﻿public void sendMsg() {
+        BufferedWriter log;
+        network.sendMessage(msgField.getText());
+        msgField.clear();
+        try {
+            log = new BufferedWriter(new FileWriter(log.txt, true));
+            log.write(mainTextArea.getText());
+            log.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        msgField.requestFocus();
+    }
+    
+    
+    public void sendAuth(ActionEvent actionEvent) {
+        if (network.isntConnected()) {
+            network.connect(
+                    argsGetMessage - {
+                        mainTextArea.appendText((String) argsGetMessage[0]);
+                    },
+                    argsAuthOk - {
+                        nick = (String) argsAuthOk[0];
+                        setAuthorized(true);
+                        try (BufferedReader br = new BufferedReader(new FileReader(log.txt))) {
+                            String s;
+                            while ((s = br.readLine()) != null) {
+                                mainTextArea.setText(s);
+                            }
+                        } catch (IOException ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    },
+                    argsGetClientsList - {
+                        Platform.runLater(() - {
+                            clientsList.clear();
+                            String[] tokens = (String[]) argsGetClientsList;
+                            for (int i = 1; i  tokens.length; i++) {
+                                clientsList.add(tokens[i]);
+                            }
+                        });
+                    },
+                    argsDisconnect - {
+                        showAlert(Произошло отключение от сервера);
+                        setAuthorized(false);
+                    }
+            );
+        }
+
+        if (network.sendMessage(auth  + loginField.getText() +   + passField.getText())) {
+            loginField.clear();
+            passField.clear();
+        } else {
+            showAlert(Невозможно отправить сообщение, проверьте сетевое соединение...);
+        }
+    }
